@@ -1,21 +1,23 @@
 <template>
   <template v-if="visible">
-    <div class="flares-dialog-overlay" @click="onClickOverlay"></div>
-    <div class="flares-dialog-wrapper">
-      <div class="flares-dialog">
-        <header>
-          <slot name="title" />
-          <span @click="close" class="flares-dialog-close"></span>
-        </header>
-        <main>
-          <slot name="content" />
-        </main>
-        <footer>
-          <Button level="main" @click="ok">OK</Button>
-          <Button @click="cancel">Cancel</Button>
-        </footer>
+    <Teleport to="body">
+      <div class="flares-dialog-overlay" @click="onClickOverlay"></div>
+      <div class="flares-dialog-wrapper">
+        <div class="flares-dialog">
+          <header>
+            <slot name="title" />
+            <span @click="close" class="flares-dialog-close"></span>
+          </header>
+          <main>
+            <slot name="content" />
+          </main>
+          <footer>
+            <Button level="main" @click="ok">OK</Button>
+            <Button @click="cancel">Cancel</Button>
+          </footer>
+        </div>
       </div>
-    </div>
+    </Teleport>
   </template>
 </template>
 
