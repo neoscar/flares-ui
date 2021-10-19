@@ -1,9 +1,15 @@
-<template>button 测试</template>
+<template>
+  <div>Button 示例</div>
+  <h1>示例</h1>
+  <div>
+    <Button>你好</Button>
+  </div>
+</template>
 <script lang="ts">
-import Switch from '../lib/Switch.vue'
+import Button from '../lib/Button.vue'
 export default {
   components: {
-    Switch
+    Button
   }
 }
 </script>
