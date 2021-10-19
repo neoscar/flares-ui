@@ -1,13 +1,13 @@
 <template>
   <!-- 导航条 -->
   <div class="topnav">
-    <div class="logo" @click="toggleMenu">LOGO</div>
+    <div class="logo">LOGO</div>
     <ul class="menu">
       <li>菜单1</li>
       <li>菜单2</li>
     </ul>
-    <!-- 切换 aside -->
-    <span class="toggleAside"></span>
+    <!-- 切换 aside 小按钮 -->
+    <span class="toggleAside" @click="toggleMenu"></span>
   </div>
 </template>
 <script lang="ts">
@@ -45,7 +45,6 @@ export default {
     }
   }
   > .toggleAside {
-    display: inline-block;
     width: 24px;
     height: 24px;
     background: red;
@@ -53,6 +52,8 @@ export default {
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
+    // 默认不显示
+    display: none;
   }
   @media (max-width: 500px) {
     > .menu {
@@ -61,6 +62,9 @@ export default {
     // 当页面很小的时候，左右都是 auto
     > .logo {
       margin: 0 auto;
+    }
+    > .toggleAside {
+      display: inline-block;
     }
   }
 }
