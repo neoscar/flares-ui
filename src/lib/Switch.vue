@@ -10,7 +10,7 @@ export default {
   setup(props, context) {
     const toggle = () => {
       // 修改外部传入的值
-      context.emit('input', !props.value)
+      context.emit('update:value', !props.value)
     }
     return { toggle }
   }
