@@ -82,17 +82,16 @@ $radius: 4px;
       background: darken(white, 5%);
     }
   }
-  &.flares-theme-button {
-    &.flares-size-big {
-      font-size: 24px;
-      height: 48px;
-      padding: 0 16px;
-    }
-    &.flares-size-small {
-      font-size: 12px;
-      height: 20px;
-      padding: 0 4px;
-    }
+
+  &.flares-size-big {
+    font-size: 24px;
+    height: 48px;
+    padding: 0 16px;
+  }
+  &.flares-size-small {
+    font-size: 12px;
+    height: 20px;
+    padding: 0 4px;
   }
 }
 </style>
