@@ -1,70 +1,113 @@
 <template>
-  <!-- 导航条 -->
-  <div class="topnav">
-    <div class="logo">LOGO</div>
+  <section class="top_nav">
+    <router-link to="/" class="logo">
+      <svg class="icon">
+        <use xlink:href="#icon-fireball"></use>
+      </svg>
+    </router-link>
     <ul class="menu">
-      <li>菜单1</li>
-      <li>菜单2</li>
+      <li>
+        <a href="https://www.cnblogs.com/neoscar/" target="_blank">博客</a>
+      </li>
+      <li>
+        <a href="https://github.com/neoscar/flares-ui" target="_blank"
+          >GitHub</a
+        >
+      </li>
     </ul>
-    <!-- 切换 aside 小按钮 -->
-    <span class="toggleAside" @click="toggleMenu"></span>
-  </div>
+    <div v-if="visibleMenuButton" class="toggleAside" @click="toggleAside">
+      <svg class="icon">
+        <use xlink:href="#icon-Menu"></use>
+      </svg>
+    </div>
+  </section>
 </template>
+
 <script lang="ts">
 import { inject, Ref } from 'vue'
+
 export default {
+  name: 'TopNav',
+  props: {
+    visibleMenuButton: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup() {
     const asideVisible = inject<Ref<boolean>>('asideVisible')
-    // console.log('topnav 获取的 asideVisible 为：' + asideVisible.value)
-    const toggleMenu = () => {
+    const toggleAside = () => {
       asideVisible.value = !asideVisible.value
     }
-    return { toggleMenu }
+
+    return { toggleAside }
   }
 }
 </script>
+
 <style lang="scss" scoped>
-.topnav {
-  background: pink;
-  display: flex;
-  padding: 16px;
+$buttonColor: #f5e1b7;
+$textColor: #fc6e51;
+.top_nav {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 100%;
-  z-index: 10;
+  color: $textColor;
+  display: flex;
+  padding: 14px;
   justify-content: center;
   align-items: center;
+  z-index: 20;
+  background: #fff;
+  box-shadow: 0 5px 5px rgb(51 51 51 / 10%);
+
   > .logo {
+    margin-left: 50px;
+    cursor: pointer;
     max-width: 6em;
     margin-right: auto;
+
+    svg {
+      width: 38px;
+      height: 38px;
+    }
   }
-  > .menu {
+
+  .menu {
     display: flex;
     white-space: nowrap;
     flex-wrap: nowrap;
+
     > li {
       margin: 0 1em;
+      > a {
+        color: inherit;
+      }
     }
   }
+
   > .toggleAside {
-    width: 24px;
-    height: 24px;
-    background: red;
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    // 默认不显示
     display: none;
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
   }
+
   @media (max-width: 500px) {
     > .menu {
       display: none;
     }
-    // 当页面很小的时候，左右都是 auto
     > .logo {
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
     }
     > .toggleAside {
       display: inline-block;

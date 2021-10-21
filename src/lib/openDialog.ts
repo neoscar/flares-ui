@@ -1,33 +1,31 @@
-import Dialog from './Dialog.vue'
-import { createApp, h } from 'vue'
-export const openDialog = options => {
-  const { title, content, ok, cancel } = options
-  const div = document.createElement('div')
-  document.body.appendChild(div)
-  const close = () => {
-    app.unmount(div)
-    div.remove()
-  }
+import Dialog from './Dialog.vue';
+import {createApp, h} from 'vue';
+
+const openDialog = (options) => {
+  const {title, content, closeOnClickOverlay,ok, cancel} = options;
+  const destroy = () => {
+    // @ts-ignore
+    app.unmount(div);
+    div.remove();
+  };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const app = createApp({
     render() {
-      return h(
-        Dialog,
-        {
-          visible: true,
-          'onUpdate:visible': newVisible => {
-            if (newVisible === false) {
-              close()
-            }
-          },
-          ok,
-          cancel
-        },
-        {
-          title,
-          content
-        }
-      )
+      return h(Dialog,
+              {
+                visible: true,
+                'onUpdate:visible': (newVisible) => {if (!newVisible) {destroy();}},
+                ok,
+                cancel,
+                closeOnClickOverlay
+              },
+              {title: () => title, content: () => content});
     }
-  })
-  app.mount(div)
-}
+  });
+  app.mount(div);
+
+};
+
+
+export {openDialog};

@@ -1,64 +1,69 @@
 <template>
-  <button
-    class="flares-switch"
-    @click="toggle"
-    :class="{ 'flares-checked': value }"
-  >
+  <button @click="toggle" class="z_switch" :class="{ 'flares-checked': value }">
     <span></span>
   </button>
 </template>
+
 <script lang="ts">
 export default {
+  name: 'Switch',
   props: {
     value: Boolean
   },
   setup(props, context) {
     const toggle = () => {
-      // 修改外部传入的值
       context.emit('update:value', !props.value)
     }
     return { toggle }
   }
 }
 </script>
+
 <style lang="scss">
-$h: 22px;
-$h2: $h - 4px;
-.flares-switch {
-  height: $h;
-  width: $h * 2;
+$height: 20px;
+$width: 40px;
+.z_switch {
+  cursor: pointer;
+  height: $height;
+  min-width: $width;
   border: none;
-  background: #bfbfbf;
-  border-radius: $h/2;
+  background: #e3e3e3;
+  border-radius: $height / 2;
   position: relative;
+  margin: 0;
+  padding: 0;
+  outline: none;
+
   > span {
     position: absolute;
     top: 2px;
-    left: 2px;
-    height: $h2;
-    width: $h2;
-    background: white;
-    border-radius: $h2 / 2;
-    transition: all 250ms;
+    left: 1px;
+    height: 16px;
+    width: 16px;
+    background: #fdfdfd;
+    border-radius: 100%;
+    transition: all 0.3s;
   }
+
   &.flares-checked {
-    background: #1890ff;
-    > span {
-      left: calc(100% - #{$h2} - 2px);
-    }
+    background: #fc6e51;
   }
-  &:focus {
-    outline: none;
+
+  &.flares-checked > span {
+    left: 100%;
+    margin-left: -1px;
+    transform: translateX(-100%);
   }
+
   &:active {
     > span {
-      width: $h2 + 4px;
+      width: $height + 2px;
     }
   }
+
   &.flares-checked:active {
     > span {
-      width: $h2 + 4px;
-      margin-left: -4px;
+      width: $height + 2px;
     }
   }
 }

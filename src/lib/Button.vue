@@ -1,23 +1,21 @@
 <template>
   <button class="flares-button" :class="classes" :disabled="disabled">
-    <span v-if="loading" class="flares-loadingIndicator"></span>
-    <slot />
+    <span class="flares-button-spin" v-if="loading"></span>
+    <span><slot /></span>
   </button>
 </template>
 
 <script lang="ts">
 import { computed } from 'vue'
+
 export default {
+  name: 'Button',
   props: {
     theme: {
       type: String,
-      default: 'button'
+      default: 'default'
     },
     size: {
-      type: String,
-      default: 'normal'
-    },
-    level: {
       type: String,
       default: 'normal'
     },
@@ -31,161 +29,195 @@ export default {
     }
   },
   setup(props) {
-    const { theme, size, level } = props
+    const { theme, size, loading } = props
+
     const classes = computed(() => {
-      return {
-        [`flares-theme-${theme}`]: theme,
-        [`flares-size-${size}`]: size,
-        [`flares-level-${level}`]: level
-      }
+      const loadingClass = loading ? ' flares-button-loading' : ''
+
+      return `flares-button-theme-${theme} flares-button-size-${size}${loadingClass}`
     })
+
     return { classes }
   }
 }
 </script>
 
 <style lang="scss">
-$h: 32px;
 $border-color: #d9d9d9;
-$color: #333;
-$blue: #40a9ff;
+$color: #f5e1b7;
+$orange: #f5e1b7;
 $radius: 4px;
-$red: red;
-$grey: grey;
+
 .flares-button {
-  box-sizing: border-box;
-  height: $h;
+  border-radius: $radius;
+  line-height: 1;
+  color: $color;
   padding: 0 12px;
   cursor: pointer;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   white-space: nowrap;
-  background: white;
-  color: $color;
-  border: 1px solid $border-color;
-  border-radius: $radius;
-  box-shadow: 0 1px 0 fade-out(black, 0.95);
-  transition: background 250ms;
-  & + & {
-    margin-left: 8px;
-  }
-  &:hover,
-  &:focus {
-    color: $blue;
-    border-color: $blue;
-  }
+  box-sizing: border-box;
+  font-size: 14px;
+  margin: 8px;
+
   &:focus {
     outline: none;
   }
+
   &::-moz-focus-inner {
     border: 0;
   }
-  &.flares-theme-link {
-    border-color: transparent;
-    box-shadow: none;
-    color: $blue;
+
+  // 主题
+  &.flares-button-theme-default {
+    background: #fff;
+    border: 1px solid #222831;
+    color: #4a4444;
+
     &:hover,
     &:focus {
-      color: lighten($blue, 10%);
-    }
-  }
-  &.flares-theme-text {
-    border-color: transparent;
-    box-shadow: none;
-    color: inherit;
-    &:hover,
-    &:focus {
-      background: darken(white, 5%);
+      color: #fff;
+      border-color: #f4ac6a;
+      background-color: #f5e1b7;
     }
   }
 
-  &.flares-size-big {
-    font-size: 24px;
-    height: 48px;
-    padding: 0 16px;
-  }
-  &.flares-size-small {
-    font-size: 12px;
-    height: 20px;
-    padding: 0 4px;
+  &.flares-button-theme-primary {
+    background: #fc6e51;
+    border: 1px solid #fc6e51;
+    color: #4a4444;
+
+    &:hover,
+    &:focus {
+      color: #fc6e51;
+      border-color: #fc6e51;
+      background: #fff;
+    }
   }
 
-  &.flares-theme-button {
-    &.flares-level-main {
-      background: $blue;
-      color: white;
-      border-color: $blue;
-      &:hover,
-      &:focus {
-        background: darken($blue, 10%);
-        border-color: darken($blue, 10%);
-      }
+  &.flares-button-theme-warning {
+    background: #f7e4a4;
+    border: 1px solid #fce38a;
+    color: #4a4444;
+
+    &:hover,
+    &:focus {
+      color: #ffc107;
+      border-color: #ffc107;
+      background: #fff;
     }
-    &.flares-level-danger {
-      background: $red;
-      border-color: $red;
-      color: white;
-      &:hover,
-      &:focus {
-        background: darken($red, 10%);
-        border-color: darken($red, 10%);
+  }
+
+  &.flares-button-theme-success {
+    background: #28a745;
+    border: 1px solid #28a745;
+    color: #fff;
+
+    &:hover,
+    &:focus {
+      color: #28a745;
+      border-color: #28a745;
+      background-color: #fff;
+    }
+  }
+
+  &.flares-button-theme-danger {
+    background: #d72323;
+    border: 1px solid #d72323;
+    color: #eeeeee;
+
+    &:hover,
+    &:focus {
+      color: #d72323;
+      border-color: #d72323;
+      background-color: #fff;
+    }
+  }
+
+  &.flares-button-theme-info {
+    background: #52616b;
+    border: 1px solid #52616b;
+    color: #eeeeee;
+
+    &:hover,
+    &:focus {
+      color: #222831;
+      border-color: #222831;
+      background-color: #fff;
+    }
+  }
+
+  &.flares-button-theme-link {
+    border: none;
+    background: inherit;
+    color: #4a4444;
+
+    &:hover,
+    &:focus {
+      > span {
+        color: #f5e1b7;
+        border-bottom: 1px solid #222831;
       }
     }
   }
-  &.flares-theme-link {
-    &.flares-level-danger {
-      color: $red;
-      &:hover,
-      &:focus {
-        color: darken($red, 10%);
-      }
-    }
+
+  // 尺寸
+  &.flares-button-size-small {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 4px;
   }
-  &.flares-theme-text {
-    &.flares-level-main {
-      color: $blue;
-      &:hover,
-      &:focus {
-        color: darken($blue, 10%);
-      }
-    }
-    &.flares-level-danger {
-      color: $red;
-      &:hover,
-      &:focus {
-        color: darken($red, 10%);
-      }
-    }
+
+  &.flares-button-size-normal {
+    padding: 12px 24px;
   }
-  &.flares-theme-button {
+
+  &.flares-button-size-large {
+    padding: 14px 28px;
+    font-size: 18px;
+    border-radius: 4px;
+  }
+
+  // 禁用
+  &.flares-button {
     &[disabled] {
       cursor: not-allowed;
-      color: $grey;
+      color: #4a4444;
+      background: #eeeeee;
+
       &:hover {
-        border-color: $grey;
+        border-color: #4a4444;
       }
     }
   }
-  &.flares-theme-link,
-  &.flares-theme-text {
+
+  &.flares-button-theme-link,
+  &.flares-button-theme-text {
     &[disabled] {
       cursor: not-allowed;
-      color: $grey;
+      color: #4a4444;
     }
   }
-  > .flares-loadingIndicator {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    margin-right: 4px;
-    border-radius: 8px;
-    border-color: $blue $blue $blue transparent;
-    border-style: solid;
-    border-width: 2px;
-    animation: flares-spin 1s infinite linear;
+
+  &.flares-button-loading {
+    pointer-events: none;
+
+    .flares-button-spin {
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      margin-right: 4px;
+      border-radius: 8px;
+      border-color: $orange $orange $orange transparent;
+      border-style: solid;
+      border-width: 2px;
+      animation: flares-spin 1s infinite linear;
+    }
   }
 }
+
 @keyframes flares-spin {
   0% {
     transform: rotate(0deg);

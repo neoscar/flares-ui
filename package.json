@@ -6,12 +6,17 @@
     "build": "vite build"
   },
   "dependencies": {
-    "vue": "^3.0.0-rc.1",
-    "vue-router": "4.0.0-beta.3"
+    "github-markdown-css": "^4.0.0",
+    "marked": "^1.1.1",
+    "nprogress": "^0.2.0",
+    "prismjs": "^1.21.0",
+    "vue": "3.0.0",
+    "vue-router": "4.0.0-beta.3",
+    "vue-kinesis": "^1.1.5"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.0.0-rc.1",
-    "sass": "^1.43.2",
+    "@vue/compiler-sfc": "3.0.0",
+    "sass": "1.26.10",
     "vite": "^1.0.0-rc.1"
   }
 }

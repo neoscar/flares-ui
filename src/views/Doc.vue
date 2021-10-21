@@ -1,93 +1,169 @@
 <template>
   <div class="layout">
-    <!-- 导航条 -->
-    <Topnav class="nav" />
-    <!-- 内容区 -->
-    <div class="content">
-      <aside v-if="asideVisible">
+    <TopNav class="nav" :visibleMenuButton="true" />
+    <section class="content">
+      <aside class="aside_menu" :class="{ visible: asideVisible }">
+        <h2>文档</h2>
+        <ol>
+          <li>
+            <router-link to="/doc/intro">项目介绍</router-link>
+          </li>
+        </ol>
         <h2>组件列表</h2>
         <ol>
           <li>
-            <router-link to="/doc/switch">Switch 组件</router-link>
+            <router-link to="/doc/switch">Switch 开关</router-link>
           </li>
           <li>
-            <router-link to="/doc/button">Button 组件</router-link>
+            <router-link to="/doc/radio">Radio 单选框</router-link>
           </li>
           <li>
-            <router-link to="/doc/dialog">Dialog 组件</router-link>
+            <router-link to="/doc/button">Button 按钮</router-link>
           </li>
           <li>
-            <router-link to="/doc/tabs">Tabs 组件</router-link>
+            <router-link to="/doc/input">Input 输入框</router-link>
+          </li>
+          <li>
+            <router-link to="/doc/dialog">Dialog 弹出框</router-link>
+          </li>
+          <li>
+            <router-link to="/doc/tabs">Tabs 标签页</router-link>
+          </li>
+          <li>
+            <router-link to="/doc/unfinished">未完待续...</router-link>
           </li>
         </ol>
       </aside>
       <main>
         <router-view />
       </main>
-    </div>
+    </section>
   </div>
 </template>
+
 <script lang="ts">
-import Topnav from '../components/Topnav.vue'
+import TopNav from '../components/TopNav.vue'
 import { inject, Ref } from 'vue'
+
 export default {
-  components: {
-    Topnav
-  },
+  name: 'Doc',
+  components: { TopNav },
   setup() {
     const asideVisible = inject<Ref<boolean>>('asideVisible')
-    // console.log('Doc aside 获取的 asideVisible 为：' + asideVisible.value)
-    return { asideVisible }
+
+    return {
+      asideVisible
+    }
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow-x: hidden;
+
   > .nav {
-    flex-shrink: 0;
+    flex: 0;
   }
+
   > .content {
-    flex-grow: 1;
-    padding-top: 60px;
+    display: flex;
+    flex: 1;
+    padding-top: 80px;
     padding-left: 156px;
-    @media (max-width: 500px) {
+
+    .aside_menu {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      margin-top: 80px;
+      height: auto;
+      width: 260px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      border-right: 1px solid #e8e8e8;
+      z-index: 10;
+      box-shadow: 5px 0 5px rgb(51 51 51 / 10%);
+      //&::-webkit-scrollbar { width: 0 !important }
+      padding-bottom: 32px;
+
+      > h2 {
+        margin-bottom: 4px;
+        line-height: 22px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      > ol {
+        > li {
+          position: relative;
+          width: 100%;
+          font-size: 14px;
+
+          > a {
+            display: block;
+            padding: 12px 20px;
+            cursor: pointer;
+            color: #333;
+
+            &:hover {
+              background: #f5e1b7;
+              border-bottom: none;
+            }
+          }
+
+          .router-link-active {
+            background-color: #f5e1b7;
+            border-right: none;
+
+            &:after {
+              content: '';
+              position: absolute;
+              top: 0;
+              right: 0;
+              height: 100%;
+              border-right: 3px solid #fc6e51;
+            }
+          }
+        }
+      }
+    }
+
+    main {
+      flex: 1;
+      overflow: auto;
+      padding: 60px 180px;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .layout {
+    > .content {
       padding-left: 0;
+
+      .aside_menu {
+        width: 180px;
+        background-color: #fff;
+        transition: all 0.25s ease;
+        transform: translateX(-200px);
+
+        &.visible {
+          transform: translateX(0px);
+        }
+      }
+
+      main {
+        overflow: auto;
+        padding: 20px 8px;
+        margin: 0 auto;
+      }
     }
-  }
-}
-.content {
-  display: flex;
-  > aside {
-    flex-shrink: 0;
-  }
-  > main {
-    flex-grow: 1;
-    padding: 16px;
-    background: white;
-  }
-}
-aside {
-  background: lightblue;
-  width: 150px;
-  padding: 16px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding-top: 70px;
-  height: 100%;
-  > h2 {
-    margin-bottom: 4px;
-  }
-  > ol {
-    > li {
-      padding: 4px 0;
-    }
-  }
-  main {
-    overflow: auto;
   }
 }
 </style>

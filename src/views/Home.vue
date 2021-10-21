@@ -1,47 +1,178 @@
 <template>
-  <div>
-    <!-- 导航条 -->
-    <Topnav />
-    <!-- 内容区 -->
-    <div class="banner">
-      <!-- 标题 -->
-      <h1>flares-ui</h1>
-      <h2>一个厉害的 UI 框架</h2>
-      <!-- 链接 -->
-      <p class="actions">
-        <a href="https://github.com">Github</a>
-        <router-link to="/doc">开始</router-link>
-      </p>
+  <div class="home">
+    <top-nav></top-nav>
+    <div class="content">
+      <h1>Flares UI 组件库</h1>
+      <h2>海纳百川，取则行远。</h2>
+      <div class="btn">
+        <a
+          target="_blank"
+          href="https://github.com/neoscar/flares-ui"
+          class="git"
+          >GitHub</a
+        >
+        <router-link to="/doc/intro">开始</router-link>
+      </div>
+    </div>
+    <div class="desc">
+      <div class="item">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-Vue"></use>
+        </svg>
+        <div>
+          <div class="title">基于 Vue3</div>
+          <div class="d-x">使用 Vue3 Composition API</div>
+        </div>
+      </div>
+      <div class="item">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-typescript"></use>
+        </svg>
+        <div>
+          <div class="title">基于 Typescript</div>
+          <div class="d-x">源代码采用 Typescript 书写</div>
+        </div>
+      </div>
+      <div class="item">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-Tools"></use>
+        </svg>
+        <div>
+          <div class="title">代码易读</div>
+          <div class="d-x">每个组件的源代码都极其简洁</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
-<script lang="ts">
-import Topnav from '../components/Topnav.vue'
+
+<script>
+import TopNav from '../components/TopNav.vue'
 export default {
-  components: {
-    Topnav
-  }
+  name: 'home',
+  components: { TopNav }
 }
 </script>
+
 <style lang="scss" scoped>
-.banner {
-  padding: 100px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background: lightgreen;
-  > .actions {
-    padding: 8px 0;
-    a {
-      margin: 0 8px;
-      background: #fff;
-      display: inline-block;
-      $h: 28px;
-      height: $h;
-      line-height: $h;
-      border-radius: $h/2;
-      padding: 0 8px;
+$h1_color: #fd281a;
+$bg: #fc6e51;
+$btn_color: #fff;
+$border_radius: 4px;
+.home {
+  ::v-deep(.top-nav) {
+    background: transparent;
+  }
+
+  .content {
+    background: linear-gradient(
+      145deg,
+      rgba(245, 225, 183, 1) 0%,
+      rgba(244, 172, 106, 1) 100%,
+      rgba(252, 110, 81, 1) 100%,
+      rgba(152, 106, 79, 1) 100%
+    );
+    margin: 0 auto;
+    clip-path: ellipse(80% 60% at 50% 35%);
+    padding: 200px 0 150px 0;
+
+    > h1 {
+      text-align: center;
+      font-size: 34px;
+      line-height: 52px;
+      color: $h1_color;
+    }
+    > h2 {
+      text-align: right;
+      padding-right: 100px;
+      font-size: 20px;
+      line-height: 26px;
+      color: $h1_color;
+      margin-top: 12px;
+    }
+    .btn {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 17px;
+      .git {
+        margin-right: 15px;
+      }
+      > a {
+        background: $bg;
+        padding: 8px 20px;
+        color: $btn_color;
+        border-radius: $border_radius;
+      }
+    }
+  }
+  .desc {
+    display: flex;
+    padding-top: 60px;
+    .item {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      > svg {
+        width: 45px;
+        height: 45px;
+        margin-right: 15px;
+      }
+      .title {
+        font-size: 28px;
+        margin-bottom: 12px;
+      }
+      .d-x {
+        font-size: 20px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 900px) {
+  .home {
+    .content {
+      padding: 100px 0 50px 0;
+      > h2 {
+        padding-right: 0;
+        text-align: center;
+        margin-bottom: 15px;
+      }
+      .btn {
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        width: 300px;
+        padding: 0 40px 30px;
+        .git {
+          margin-right: 0;
+          margin-bottom: 15px;
+        }
+        > a {
+          display: inline-block;
+          min-width: 8em;
+        }
+      }
+    }
+    .desc {
+      padding-bottom: 200px;
+      flex-direction: column;
+      .item {
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        width: 300px;
+        padding: 0 40px 30px;
+        .title {
+          font-size: 20px;
+        }
+        .d-x {
+          font-size: 14px;
+          line-height: 20px;
+        }
+        > svg {
+          margin-bottom: 10px;
+          margin-right: 0;
+        }
+      }
     }
   }
 }
